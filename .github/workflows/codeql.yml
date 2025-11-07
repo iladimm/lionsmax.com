@@ -18,6 +18,10 @@ on:
     branches: [ "main" ]
   schedule:
     - cron: '44 13 * * 3'
+    # Concurrency control to cancel outdated CodeQL runs
+    concurrency:
+      group: ${{ github.ref }}
+        cancel-in-progress: true
 
 jobs:
   analyze:
@@ -56,6 +60,12 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+          # Setup Node.js with LTS version
+              - name: Setup Node.js
+                    uses: actions/setup-node@v4
+                          with:
+                                  node-version: '18'
+                                          cache: 'npm'
 
     # Add any setup steps before running the `github/codeql-action/init` action.
     # This includes steps like installing compilers or runtimes (`actions/setup-node`
