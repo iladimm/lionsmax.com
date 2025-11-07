@@ -4,6 +4,16 @@
 
 This document provides instructions for deploying LionsMax frontend and backend services.
 
+## ⚠️ SECURITY WARNING
+
+**NEVER commit sensitive information (passwords, API keys, database credentials) to the repository.**
+
+- Use environment variables for all secrets
+- Add `.env` files to `.gitignore`
+- Use GitHub Secrets for CI/CD pipelines
+- Rotate compromised credentials immediately
+- Review commit history if secrets were ever exposed
+
 ## Frontend Deployment
 
 ### Build Process
@@ -42,8 +52,7 @@ aws cloudfront create-invalidation --distribution-id DIST_ID --paths "/*"
 Create a `.env` file in the backend directory:
 ```
 PORT=5000
-MONGO_URI=mongodb+srv://user:password@cluster.mongodb.net/lionsmax
-NODE_ENV=production
+MONGO_URI=${MONGODB_CONNECTION_STRING}  # Set this via environment variable, never commit real credentialsNODE_ENV=production
 ```
 
 ### Deployment Options
